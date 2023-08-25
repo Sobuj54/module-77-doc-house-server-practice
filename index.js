@@ -27,7 +27,9 @@ async function run() {
     client.connect();
 
     const doctorCollection = client.db("docHouse").collection("doctors");
+    const serviceCollection = client.db("docHouse").collection("services");
 
+    // doctors api
     app.get("/doctors", async (req, res) => {
       const result = await doctorCollection.find().toArray();
       res.send(result);
@@ -37,6 +39,19 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await doctorCollection.findOne(query);
+      res.send(result);
+    });
+
+    // services api
+    app.get("/services", async (req, res) => {
+      const result = await serviceCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.get("/services/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await serviceCollection.findOne(query);
       res.send(result);
     });
 
